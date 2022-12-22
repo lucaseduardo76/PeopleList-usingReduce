@@ -4,7 +4,7 @@ import { stateInput, useList } from "./reducers/peoplList"
 
 
 const App = () => {
-  var [name, setName] = stateInput()
+  const [name, setName] = stateInput()
 
   const [state, dispatch] = useList()
 
@@ -12,7 +12,7 @@ const App = () => {
     setName(e.target.value)
   }
   const increse = () => {
-    
+
     dispatch({
       type: 'ADD',
       payload: {
@@ -23,16 +23,37 @@ const App = () => {
     setName('')
   }
 
+  const takeOut = (id: string) => {
+    dispatch({
+      type: 'DEL',
+      payload: {
+        id: id
+      }
+    });
+
+    
+  }
+
+  const organize = () =>{
+    dispatch({
+      type: 'REORDER'
+    })
+  }
   return (
     <div>
       <input type="text" value={name} onChange={handleChange} />
       <button onClick={increse}>ADICIONAR</button>
+      <button onClick={organize}>REODERNAR</button>
       <br />
 
       <div>
         <ul>
           {state.map((item, index) => (
-            <li key={index}>{item.name}</li>
+
+            <li key={index}>
+              {item.name}
+              <button className="list-button" key={index} onClick={() => takeOut(item.id)}>Remover</button>
+            </li>
           ))}
         </ul>
       </div>
